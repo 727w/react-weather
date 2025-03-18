@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [input, setInput] = useState("");
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [location, setLocation] = useState("");
+  const API_KEY = "NXTAFBRP54Z4P5BSJNHRZ4DSJ";
+
+  useEffect(() => {
+    if (!location) return;
+
+    async function fetchData() {
+      try {
+        const data = await fetch(
+          `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/?key=${API_KEY}`,
+          { mode: "cors" }
+        );
+        const result = await data.json();
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [location]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="bg-blue-400 w-screen h-screen">
+      <Navbar
+        input={input}
+        onChange={setInput}
+        onSearch={() => setLocation(input)}
+      />
+    </div>
+  );
 }
 
-export default App
+export default App;
