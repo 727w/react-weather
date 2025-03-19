@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import Navbar from "./components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
+import MainInfo from "./components/MainInfo";
+import WeatherMap from "./components/Map";
 
 function App() {
   const [input, setInput] = useState("");
@@ -30,6 +33,7 @@ function App() {
     }
 
     fetchData(location);
+    setLoading(true);
   }, [location]);
 
   return (
@@ -40,12 +44,35 @@ function App() {
         onSearch={() => setLocation(input)}
       />
       {loading ? (
-        <FontAwesomeIcon icon={faSpinner} spinPulse size="2xl" />
+        <FontAwesomeIcon
+          icon={faSpinner}
+          spinPulse
+          size="2xl"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
+          style={{ color: "#ffffff" }}
+        />
       ) : (
-        <div className="text-white">
-          <h1 className="text-4xl font-bold">{data.resolvedAddress}</h1>
-          <h2 className="text-2xl">{data.currentConditions.icon}</h2>
-          <h3 className="text-xl">{data.currentConditions.temp}</h3>
+        <div className="flex w-full justify-center items-center">
+          <div className="w-1/2 text-white">
+            <MainInfo
+              location={data.resolvedAddress}
+              icon={data.currentConditions.icon}
+              temp={data.currentConditions.temp}
+              cond={data.currentConditions.conditions}
+              wind={data.currentConditions.windspeed}
+              feel={data.currentConditions.feelslike}
+              uv={data.currentConditions.uvindex}
+              visibility={data.currentConditions.visibility}
+              press={data.currentConditions.pressure}
+            />
+          </div>
+          <div className="flex-1 w-1/2">
+            <WeatherMap
+              lat={data.latitude}
+              lon={data.longitude}
+              location={data.resolvedAddress}
+            />
+          </div>
         </div>
       )}
     </div>
