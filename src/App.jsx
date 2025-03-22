@@ -38,23 +38,17 @@ function App() {
     setLoading(true);
   }, [location]);
 
-  const convertTemp = (tempF) => {
+  const convertTemp = (tempF, unit) => {
     return unit === "C" ? ((tempF - 32) * 5) / 9 : tempF;
   };
 
   return (
-    <div className="bg-blue-900 w-screen h-screen">
+    <div className="bg-linear-to-b from-sky-900 to-sky-700 w-screen min-h-screen">
       <Navbar
         input={input}
         onChange={setInput}
         onSearch={() => setLocation(input)}
-        button={
-          <BtnContainer
-            onClick={(unit) => {
-              setUnit(unit);
-            }}
-          />
-        }
+        button={<BtnContainer onClick={setUnit} />}
       />
       {loading ? (
         <FontAwesomeIcon
@@ -65,47 +59,70 @@ function App() {
           style={{ color: "#ffffff" }}
         />
       ) : (
-        <div className="flex flex-wrap w-[90%] xl:w-[60%] justify-center items-center m-auto bg-white/20 backdrop-blur-md rounded-md mt-4">
-          <div className="text-white">
+        <div className="flex w-[90%] xl:w-[60%] h-[90%] justify-center items-start m-auto bg-white/20 backdrop-blur-md rounded-md mt-4 p-4 gap-4">
+          {/* Kiri: MainInfo + Map */}
+          <div className="w-1/2 flex flex-col gap-4 text-white">
             <MainInfo
               location={data.resolvedAddress}
               icon={data.currentConditions.icon}
-              temp={convertTemp(data.currentConditions.temp).toFixed(1)}
+              temp={convertTemp(data.currentConditions.temp, unit).toFixed(1)}
               cond={data.currentConditions.conditions}
               wind={data.currentConditions.windspeed}
-              feel={data.currentConditions.feelslike}
+              feel={convertTemp(data.currentConditions.feelslike, unit).toFixed(
+                1
+              )}
               uv={data.currentConditions.uvindex}
               visibility={data.currentConditions.visibility}
               press={data.currentConditions.pressure}
+              unit={unit}
+            />
+
+            <WeatherMap
+              lat={data.latitude}
+              lon={data.longitude}
+              location={data.resolvedAddress}
             />
           </div>
-          <div className="flex-1 w-1/2">
+
+          {/* Kanan: Grid Cards */}
+          <div className="pt-6 pr-6 w-1/2 grid grid-cols-2 gap-4">
             <Card
               img={"visibility"}
               title={"Visibility"}
               data={data.currentConditions.visibility}
+              unit={"km"}
             />
             <Card
               img={"pressure"}
               title={"Pressure"}
               data={data.currentConditions.pressure}
+              unit={"mb"}
             />
             <Card
               img={"feels-like"}
               title={"Feels like"}
-              data={data.currentConditions.feelslike}
+              data={convertTemp(data.currentConditions.feelslike, unit).toFixed(
+                1
+              )}
+              unit={"°"}
             />
             <Card
               img={"humidity"}
               title={"Humidity"}
               data={data.currentConditions.humidity}
+              unit={"%"}
             />
-          </div>
-          <div className="flex-1">
-            <WeatherMap
-              lat={data.latitude}
-              lon={data.longitude}
-              location={data.resolvedAddress}
+            <Card
+              img={"wind-icon"}
+              title={"Wind"}
+              data={data.currentConditions.windspeed}
+              unit={"km/h"}
+            />
+            <Card
+              img={"uvindex"}
+              title={"UV index"}
+              data={data.currentConditions.uvindex}
+              unit={""}
             />
           </div>
         </div>

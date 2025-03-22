@@ -13,7 +13,7 @@ export default function WeatherMap({ lat, lon, location }) {
     <MapContainer
       center={[lat, lon]}
       zoom={10}
-      style={{ height: "300px", width: "90%", borderRadius: "10px", marginTop: "24px", marginRight: "24px" }}
+      style={{ height: "300px", width: "80%", borderRadius: "10px", marginTop: "24px", marginLeft: "24px", marginRight: "24px" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

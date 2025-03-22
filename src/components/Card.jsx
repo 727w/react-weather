@@ -1,10 +1,10 @@
-export default function Card({ img, title, data }) {
+export default function Card({ img, title, data, unit }) {
   const dataImg = `/public/icon/${img}.png`;
   return (
     <div className="bg-white/10 backdrop-blur-xs rounded-md p-4">
-      <p>{title}</p>
+      <p className="text-white">{title}</p>
       <img src={dataImg} alt="icon" />
-      <p>{data}</p>
+      <p className="text-white text-center font-bold">{data} {unit}</p>
     </div>
   );
 }
