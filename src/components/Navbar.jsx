@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-export default function Navbar({ input, onChange, onSearch }) {
+export default function Navbar({ input, onChange, onSearch, button }) {
   return (
     <div className="w-full h-16 bg-white/10 backdrop-blur-xs flex justify-between items-center">
       <div className="flex items-center">
@@ -13,6 +13,7 @@ export default function Navbar({ input, onChange, onSearch }) {
         />
         <h1 className="text-3xl text-white font-bold">Weather</h1>
       </div>
+      <div>{button}</div>
       <div className="px-6">
         <input
           type="text"
