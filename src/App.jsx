@@ -42,25 +42,25 @@ function App() {
   };
 
   return (
-    <div className="bg-linear-to-b from-sky-900 to-sky-700 w-screen min-h-screen">
+    <div className="bg-gradient-to-b from-sky-900 to-sky-700 w-screen min-h-screen">
       <Navbar
         input={input}
         onChange={setInput}
         onSearch={() => setLocation(input)}
         button={<BtnContainer onClick={setUnit} />}
       />
+
       {loading ? (
         <FontAwesomeIcon
           icon={faSpinner}
           spinPulse
           size="2xl"
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
-          style={{ color: "#ffffff" }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white"
         />
       ) : (
-        <div className="flex w-[90%] xl:w-[60%] h-[90%] justify-center items-start m-auto bg-white/20 backdrop-blur-md rounded-md mt-4 p-4 gap-4">
-          {/* Kiri: MainInfo + Map */}
-          <div className="w-1/2 flex flex-col gap-4 text-white">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-4 w-[90%] xl:w-[60%] mx-auto bg-white/20 backdrop-blur-md rounded-md mt-4 p-4">
+          {/* MainInfo di atas pada Mobile, kiri pada Desktop */}
+          <div className="flex flex-col gap-y-2 w-full h-auto min-h-0">
             <MainInfo
               location={data.resolvedAddress}
               icon={data.currentConditions.icon}
@@ -75,16 +75,10 @@ function App() {
               press={data.currentConditions.pressure}
               unit={unit}
             />
-
-            <WeatherMap
-              lat={data.latitude}
-              lon={data.longitude}
-              location={data.resolvedAddress}
-            />
           </div>
 
-          {/* Kanan: Grid Cards */}
-          <div className="pt-6 pr-6 w-1/2 grid grid-cols-2 gap-4">
+          {/* Grid Cards (Bawah MainInfo pada Mobile, Kanan di Desktop) */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-4">
             <Card
               img={"visibility"}
               title={"Visibility"}
@@ -122,6 +116,15 @@ function App() {
               title={"UV index"}
               data={data.currentConditions.uvindex}
               unit={""}
+            />
+          </div>
+
+          {/* Peta selalu di bawah */}
+          <div className="w-full">
+            <WeatherMap
+              lat={data.latitude}
+              lon={data.longitude}
+              location={data.resolvedAddress}
             />
           </div>
         </div>
