@@ -15,7 +15,7 @@ export default function MainInfo({
   const iconPath = `${import.meta.env.BASE_URL}/icon/${icon}.png`;
 
   return (
-    <div className="w-[80%] bg-white/10 backdrop-blur-xs rounded-md p-4 m-6 flex flex-col flex-wrap">
+    <div className="w-[80%] bg-white/10 backdrop-blur-xs rounded-md p-4 m-6 flex flex-col flex-wrap max-sm:m-auto">
       <p>{location}</p>
       <div className="flex flex-wrap gap-4 items-center">
         <img src={iconPath} alt="icon" className="w-25 h-25" />

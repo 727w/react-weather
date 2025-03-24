@@ -3,7 +3,7 @@ import { faCloud, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({ input, onChange, onSearch, button }) {
   return (
-    <div className="w-full h-auto sm:h-16 bg-white/10 backdrop-blur-xs flex flex-col sm:flex-row justify-between items-center p-4 gap-2">
+    <div className="w-full h-auto px-4 bg-white/10 backdrop-blur-xs flex justify-between items-center flex-wrap max-sm:justify-center max-sm:pb-4">
       <div className="flex items-center">
         <FontAwesomeIcon icon={faCloud} size="xl" className="text-white p-2" />
         <h1 className="text-2xl sm:text-3xl text-white font-bold">Weather</h1>

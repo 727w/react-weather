@@ -42,7 +42,7 @@ function App() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-sky-900 to-sky-700 w-screen min-h-screen">
+    <div className="bg-linear-to-b from-sky-900 via-sky-700 to-sky-500 min-w-screen min-h-screen">
       <Navbar
         input={input}
         onChange={setInput}
@@ -58,9 +58,9 @@ function App() {
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white"
         />
       ) : (
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-4 w-[90%] xl:w-[60%] mx-auto bg-white/20 backdrop-blur-md rounded-md mt-4 p-4">
-          {/* MainInfo di atas pada Mobile, kiri pada Desktop */}
-          <div className="flex flex-col gap-y-2 w-full h-auto min-h-0">
+        <div className="grid grid-cols-2 w-full xl:w-[60%] h-[90%] justify-center items-start m-auto bg-white/20 backdrop-blur-md rounded-md mt-4 p-4 gap-4 max-xl:w-[90%] max-xs:w-[90%] max-sm:grid-cols-1">
+          {/* Kiri: MainInfo + Map */}
+          <div className="flex flex-col text-white grid-cols-2 grid-rows-2">
             <MainInfo
               location={data.resolvedAddress}
               icon={data.currentConditions.icon}
@@ -75,58 +75,79 @@ function App() {
               press={data.currentConditions.pressure}
               unit={unit}
             />
+
+            <div className="max-sm:flex max-sm:justify-center">
+              <WeatherMap
+                lat={data.latitude}
+                lon={data.longitude}
+                location={data.resolvedAddress}
+              />
+            </div>
           </div>
 
-          {/* Grid Cards (Bawah MainInfo pada Mobile, Kanan di Desktop) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-4">
-            <Card
-              img={"visibility"}
-              title={"Visibility"}
-              data={data.currentConditions.visibility}
-              unit={"km"}
-            />
-            <Card
-              img={"pressure"}
-              title={"Pressure"}
-              data={data.currentConditions.pressure}
-              unit={"mb"}
-            />
-            <Card
-              img={"feels-like"}
-              title={"Feels like"}
-              data={convertTemp(data.currentConditions.feelslike, unit).toFixed(
-                1
-              )}
-              unit={"°"}
-            />
-            <Card
-              img={"humidity"}
-              title={"Humidity"}
-              data={data.currentConditions.humidity}
-              unit={"%"}
-            />
-            <Card
-              img={"wind-icon"}
-              title={"Wind"}
-              data={data.currentConditions.windspeed}
-              unit={"km/h"}
-            />
-            <Card
-              img={"uvindex"}
-              title={"UV index"}
-              data={data.currentConditions.uvindex}
-              unit={""}
-            />
+          {/* Kanan: Grid Cards */}
+          <div className="pt-6 pr-6 w-full grid grid-cols-2 gap-4 max-sm:px-[10%]">
+            <div className="grid-cols-1">
+              <Card
+                img={"visibility"}
+                title={"Visibility"}
+                data={data.currentConditions.visibility}
+                unit={"km"}
+              />
+            </div>
+            <div className="grid-cols-1">
+              <Card
+                img={"pressure"}
+                title={"Pressure"}
+                data={data.currentConditions.pressure}
+                unit={"mb"}
+              />
+            </div>
+            <div className="grid-cols-1">
+              <Card
+                img={"feels-like"}
+                title={"Feels like"}
+                data={convertTemp(
+                  data.currentConditions.feelslike,
+                  unit
+                ).toFixed(1)}
+                unit={"°"}
+              />
+            </div>
+            <div className="grid-cols-1">
+              <Card
+                img={"humidity"}
+                title={"Humidity"}
+                data={data.currentConditions.humidity}
+                unit={"%"}
+              />
+            </div>
+            <div className="grid-cols-1">
+              <Card
+                img={"wind-icon"}
+                title={"Wind"}
+                data={data.currentConditions.windspeed}
+                unit={"km/h"}
+              />
+            </div>
+            <div className="grid-cols-1">
+              <Card
+                img={"uvindex"}
+                title={"UV index"}
+                data={data.currentConditions.uvindex}
+                unit={""}
+              />
+            </div>
           </div>
 
-          {/* Peta selalu di bawah */}
+          {/* Peta selalu di bawah
           <div className="w-full">
             <WeatherMap
               lat={data.latitude}
               lon={data.longitude}
               location={data.resolvedAddress}
             />
-          </div>
+          </div> */}
         </div>
       )}
     </div>
